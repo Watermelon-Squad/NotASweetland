@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
 
 
     public float radius = 10.0f;
-
+    private float count = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,8 +33,18 @@ public class CameraFollow : MonoBehaviour
 
         transform.LookAt(player_transform);
 
-        if(!player_transform.gameObject.GetComponent<PlayerMovement>().moving)
-            transform.RotateAround(player_transform.position,Vector3.up,Vector3.Angle(transform.position,player_transform.position)*Time.deltaTime);
+        if (!player_transform.gameObject.GetComponent<PlayerMovement>().moving)
+        {
+            Vector3 n = (player_transform.position - transform.position);
+            n.y = 0;
+            float angle = Vector3.Angle(n.normalized, Vector3.forward);
+
+            if (angle > 1)
+            {
+                transform.RotateAround(player_transform.position, Vector3.up, angle * Time.deltaTime);
+            }
+        }
+
        
 
     }
