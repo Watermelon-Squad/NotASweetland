@@ -9,10 +9,15 @@ public class PlayerMovement : MonoBehaviour
     public bool moving = false;
     public float dead_zone = 0.01f;
     private float min_angle = 0.1f;
+
+    private Animator anim = null;
+    //private Transform camera = null;
+    Vector3 new_dir = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = gameObject.GetComponent<Animator>();
+       // camera = Camera.main.transform;
     }
 
     // Update is called once per frame
@@ -23,7 +28,8 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(input_joystic.x) > dead_zone || Mathf.Abs(input_joystic.y) > dead_zone)
         {
             moving = true;
-
+            anim.SetBool("walk", true);
+            anim.Play("Run");
 
             transform.position += new Vector3(input_joystic.x, 0, input_joystic.y) * movement_speed * Time.deltaTime;
 
@@ -33,31 +39,17 @@ public class PlayerMovement : MonoBehaviour
 
             float delta = -Mathf.DeltaAngle(target_degrees, curret_degrees);
 
-            if (delta > min_angle)
+            if (Mathf.Abs(delta) > min_angle)
                 transform.rotation *= Quaternion.AngleAxis(delta * Time.deltaTime, Vector3.up);
 
-           // transform.position += new Vector3((Input.GetAxis("LJoystickHorizontal") * movement_speed * Time.deltaTime), 0, (Input.GetAxis("LJoystickVertical") * movement_speed * Time.deltaTime));
-           // transform.RotateAround(transform.position, new Vector3(0, 1, 0), Input.GetAxis("RJoystickHorizontal") * rotation_speed * Time.deltaTime);
         }
         else
+        {
             moving = false;
+            anim.SetBool("walk", false);
+            anim.Play("Idle");
+        }
 
-
-       
     }
 
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        Vector3 n = new Vector3(0, 0.6f, -1);
-
-        n *= 10f/2;
-        
-        Gizmos.DrawLine(transform.position,-transform.forward);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.forward);
-    }
 }
