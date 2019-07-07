@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
     private Transform player_transform = null;
     private float player_speed = 1.0f;
 
+
     public float radius = 10.0f;
 
     // Start is called before the first frame update
@@ -31,6 +32,10 @@ public class CameraFollow : MonoBehaviour
         }
 
         transform.LookAt(player_transform);
+
+        if(!player_transform.gameObject.GetComponent<PlayerMovement>().moving)
+            transform.RotateAround(player_transform.position,Vector3.up,Vector3.Angle(transform.position,player_transform.position)*Time.deltaTime);
+       
 
     }
 
