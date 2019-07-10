@@ -6,9 +6,11 @@ public class PlayerMovement : MonoBehaviour
 {
     public float movement_speed = 1.0f;
     public float rotation_speed = 5.0f;
+    public float jump_force = 300.0f;
     public bool moving = false;
     public float dead_zone = 0.01f;
     private float min_angle = 0.1f;
+    
 
     private Animator anim = null;
     //private Transform camera = null;
@@ -25,7 +27,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 input_joystic = new Vector2(Input.GetAxis("LJoystickHorizontal"), Input.GetAxis("LJoystickVertical"));
 
-        if (Mathf.Abs(input_joystic.x) > dead_zone || Mathf.Abs(input_joystic.y) > dead_zone)
+        if (Input.GetButtonDown("AButton"))
+        {
+            gameObject.GetComponent<Rigidbody>().AddForce(new Vector3 (0.0f, jump_force, 0.0f));
+        }
+
+
+        if (Mathf.Abs(input_joystic.x) > dead_zone || Mathf.Abs(input_joystic.y) > dead_zone) //la dead zone se define en  edit->project settings->input
         {
             moving = true;
             anim.SetBool("walk", true);
