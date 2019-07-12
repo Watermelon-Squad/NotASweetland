@@ -14,6 +14,9 @@ public class CameraController : MonoBehaviour
     private GameObject player = null;
     private Vector3 offset = Vector3.zero;
 
+    private float horizontal = 0f;
+    private float vertical = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +31,8 @@ public class CameraController : MonoBehaviour
         if (Mathf.Abs(Input.GetAxis("RJoystickHorizontal")) >= dead_zone || Mathf.Abs(Input.GetAxis("RJoystickVertical")) >= dead_zone)
         {
             
-            float horizontal = player.transform.eulerAngles.y - Input.GetAxis("RJoystickHorizontal") * rotate_speed;
-            float vertical = player.transform.eulerAngles.x - Input.GetAxis("RJoystickVertical") * rotate_speed;
+            horizontal += player.transform.eulerAngles.y - Input.GetAxis("RJoystickHorizontal") * rotate_speed;
+            vertical += player.transform.eulerAngles.x - Input.GetAxis("RJoystickVertical") * rotate_speed;
 
             Quaternion q = Quaternion.Euler(vertical, horizontal, 0);
             transform.position = player.transform.position - (q * offset);
