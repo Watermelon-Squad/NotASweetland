@@ -17,29 +17,34 @@ public class CameraController : MonoBehaviour
     private float horizontal = 0f;
     private float vertical = 0f;
 
+    public Transform pivot = null;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         offset = player.transform.position - transform.position;
+
+        pivot.transform.position = player.transform.position;
+        pivot.transform.parent = player.transform;
+
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+
         if (Mathf.Abs(Input.GetAxis("RJoystickHorizontal")) >= dead_zone || Mathf.Abs(Input.GetAxis("RJoystickVertical")) >= dead_zone)
         {
-            
-            horizontal += player.transform.eulerAngles.y - Input.GetAxis("RJoystickHorizontal") * rotate_speed;
-            vertical += player.transform.eulerAngles.x - Input.GetAxis("RJoystickVertical") * rotate_speed;
 
-            Quaternion q = Quaternion.Euler(vertical, horizontal, 0);
-            transform.position = player.transform.position - (q * offset);
+            horizontal =  Input.GetAxis("RJoystickHorizontal") * rotate_speed;
+            player.transform.Rotate(0, horizontal, 0);
+            vertical =  Input.GetAxis("RJoystickVertical") * rotate_speed;
+            pivot.transform.Rotate(-vertical, 0, 0);
         }
-        else
-          if (!fixed_camera)
-            transform.position = player.transform.position - offset;
+
+        Quaternion q = Quaternion.Euler(pivot.transform.eulerAngles.x, player.transform.eulerAngles.y, 0);
+        transform.position = player.transform.position - (q * offset);
 
         // float desiredY = player.transform.eulerAngles.y;
         //float desiredX = player.transform.eulerAngles.x;
@@ -47,6 +52,8 @@ public class CameraController : MonoBehaviour
         // Quaternion q = Quaternion.Euler(Vector3.up * desiredY);
         //  transform.position = player.transform.position - (q * offset);
 
+        if (transform.position.y < player.transform.position.y)
+            transform.position = new Vector3(transform.position.x, player.transform.position.y - 0.5f, transform.position.z);
 
 
 
