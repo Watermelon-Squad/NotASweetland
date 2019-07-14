@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
         {
 
             horizontal =  Input.GetAxis("RJoystickHorizontal") * rotate_speed;
-            player.transform.Rotate(0, horizontal, 0);
+            pivot.transform.Rotate(0, -horizontal, 0);
             vertical =  Input.GetAxis("RJoystickVertical") * rotate_speed;
             pivot.transform.Rotate(-vertical, 0, 0);
         }
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
             pivot.rotation = Quaternion.Euler((360f-min_rotation_camera_x), 0, 0);
         }
 
-        Quaternion q = Quaternion.Euler(pivot.transform.eulerAngles.x, player.transform.eulerAngles.y, 0);
+        Quaternion q = Quaternion.Euler(pivot.transform.eulerAngles.x, pivot.transform.eulerAngles.y, 0);
         transform.position = player.transform.position - (q * offset);
 
         if (transform.position.y < player.transform.position.y)
