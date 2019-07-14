@@ -483,6 +483,8 @@ MonoBehaviour:
   rotate_speed: 1
   fixed_camera: 0
   pivot: {fileID: 965508949}
+  min_rotation_camera_x: 45
+  max_rotation_camera_x: 180
 --- !u!1 &532230600
 GameObject:
   m_ObjectHideFlags: 0

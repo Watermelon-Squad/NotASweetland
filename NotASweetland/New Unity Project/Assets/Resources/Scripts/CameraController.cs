@@ -19,6 +19,9 @@ public class CameraController : MonoBehaviour
 
     public Transform pivot = null;
 
+    public float min_rotation_camera_x = 45f;
+    public float max_rotation_camera_x = 180f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,14 +46,18 @@ public class CameraController : MonoBehaviour
             pivot.transform.Rotate(-vertical, 0, 0);
         }
 
+        if(pivot.rotation.eulerAngles.x > min_rotation_camera_x && pivot.rotation.eulerAngles.x < max_rotation_camera_x)
+        {
+            pivot.rotation = Quaternion.Euler(min_rotation_camera_x, 0, 0);
+        }
+
+        if(pivot.rotation.eulerAngles.x > max_rotation_camera_x && pivot.rotation.eulerAngles.x < (360f - min_rotation_camera_x))
+        {
+            pivot.rotation = Quaternion.Euler((360f-min_rotation_camera_x), 0, 0);
+        }
+
         Quaternion q = Quaternion.Euler(pivot.transform.eulerAngles.x, player.transform.eulerAngles.y, 0);
         transform.position = player.transform.position - (q * offset);
-
-        // float desiredY = player.transform.eulerAngles.y;
-        //float desiredX = player.transform.eulerAngles.x;
-
-        // Quaternion q = Quaternion.Euler(Vector3.up * desiredY);
-        //  transform.position = player.transform.position - (q * offset);
 
         if (transform.position.y < player.transform.position.y)
             transform.position = new Vector3(transform.position.x, player.transform.position.y - 0.5f, transform.position.z);

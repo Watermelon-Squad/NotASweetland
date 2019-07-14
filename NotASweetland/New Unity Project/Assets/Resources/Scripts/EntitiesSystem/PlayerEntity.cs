@@ -29,7 +29,7 @@ public class PlayerEntity : Entity
         if (character_controller.isGrounded )
         {
             if (Mathf.Abs(Input.GetAxis("LJoystickHorizontal")) >= dead_zone || Mathf.Abs(Input.GetAxis("LJoystickVertical")) >= dead_zone)
-                movement = (transform.forward * Input.GetAxis("LJoystickHorizontal"))+ (transform.right * Input.GetAxis("LJoystickVertical"));
+                movement = (transform.forward * Input.GetAxis("LJoystickVertical"))+ (transform.right * Input.GetAxis("LJoystickHorizontal"));
             else
                 movement = Vector3.zero;
 
