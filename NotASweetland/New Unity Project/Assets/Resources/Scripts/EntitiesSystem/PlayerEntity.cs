@@ -26,24 +26,37 @@ public class PlayerEntity : Entity
     public override void Movement()
     {
         float storey = movement.y;
+
         if (character_controller.isGrounded )
         {
-            if (Mathf.Abs(Input.GetAxis("LJoystickHorizontal")) >= dead_zone || Mathf.Abs(Input.GetAxis("LJoystickVertical")) >= dead_zone)
-                movement = (transform.forward * Input.GetAxis("LJoystickVertical"))+ (transform.right * Input.GetAxis("LJoystickHorizontal"));
-            else
-                movement = Vector3.zero;
+            movement = Vector3.zero;
 
-            movement = movement.normalized * movement_speed;
+            if (Mathf.Abs(Input.GetAxis("LJoystickHorizontal")) >= dead_zone || Mathf.Abs(Input.GetAxis("LJoystickVertical")) >= dead_zone)
+            {
+                float horizontal = Input.GetAxis("LJoystickHorizontal") * Time.deltaTime;
+                float vertical = Input.GetAxis("LJoystickVertical") * Time.deltaTime;
+                float angle = Mathf.Atan2(horizontal, vertical) * Mathf.Rad2Deg;
+
+                transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
+
+
+                movement = transform.forward * movement_speed;
+            }
+
             movement.y = storey;
 
             if (Input.GetButtonDown("AButton"))
                 movement.y = jump_force;
-        }
-        
-         movement.y = movement.y + (Physics.gravity.y * gravity_scale * Time.deltaTime);
+
+        }    
+
+        movement.y = movement.y + (Physics.gravity.y * gravity_scale * Time.deltaTime);
 
 
         character_controller.Move(movement * Time.deltaTime);
+
+
+    
 
     }
 }

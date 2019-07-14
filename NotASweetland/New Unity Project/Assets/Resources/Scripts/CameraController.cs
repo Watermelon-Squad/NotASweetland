@@ -48,19 +48,19 @@ public class CameraController : MonoBehaviour
 
         if(pivot.rotation.eulerAngles.x > min_rotation_camera_x && pivot.rotation.eulerAngles.x < max_rotation_camera_x)
         {
-            pivot.rotation = Quaternion.Euler(min_rotation_camera_x, 0, 0);
+            pivot.rotation = Quaternion.Euler(min_rotation_camera_x, pivot.eulerAngles.y, pivot.eulerAngles.z);
         }
 
         if(pivot.rotation.eulerAngles.x > max_rotation_camera_x && pivot.rotation.eulerAngles.x < (360f - min_rotation_camera_x))
         {
-            pivot.rotation = Quaternion.Euler((360f-min_rotation_camera_x), 0, 0);
+            pivot.rotation = Quaternion.Euler((360f-min_rotation_camera_x), pivot.eulerAngles.y, pivot.eulerAngles.z);
         }
 
         Quaternion q = Quaternion.Euler(pivot.transform.eulerAngles.x, pivot.transform.eulerAngles.y, 0);
-        transform.position = player.transform.position - (q * offset);
+        transform.position = pivot.transform.position - (q * offset);
 
-        if (transform.position.y < player.transform.position.y)
-            transform.position = new Vector3(transform.position.x, player.transform.position.y - 0.5f, transform.position.z);
+        if (transform.position.y < pivot.transform.position.y)
+            transform.position = new Vector3(transform.position.x, pivot.transform.position.y - 0.5f, transform.position.z);
 
 
 
