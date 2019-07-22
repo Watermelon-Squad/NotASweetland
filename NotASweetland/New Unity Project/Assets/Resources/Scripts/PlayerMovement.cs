@@ -15,9 +15,13 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject cross = null;
     public GameObject dot = null;
+
+    private Rigidbody rigidbody = null;
+
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -43,20 +47,33 @@ public class PlayerMovement : MonoBehaviour
 
             //Debug.DrawRay(ray.origin, ray.direction * 20, Color.yellow);
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray.origin,ray.direction, out hit, 50 ,LayerMask.GetMask("AttachmentObject")))
             {
-                Debug.Log(hit.transform.gameObject.name);
                 cross.SetActive(true);
                 // cross.transform.position = hit.transform.gameObject.transform.position;
                 cross.transform.position =  hit.point;
             }
+            else
+            {
+                cross.SetActive(false);
+            }
         }
         else if (Input.GetButtonUp("R1"))
         {
+            if(cross.activeSelf)
+            {
+                Vector3 direction = (cross.transform.position - transform.position).normalized;
+                direction.y = 1;
+                rigidbody.AddForce(direction * 800);
+            }
+
+            cross.SetActive(false);
+            dot.SetActive(false);
+
             anim.SetBool("Preparing_arm", false);
             Camera.main.GetComponent<CameraFollow>().preparing_arm = false;
-            dot.SetActive(false);
             Time.timeScale = 1.0f;
+
         }
 
         if (Input.GetAxis("R2") > 0.5f)
