@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim = null;
     Vector3 new_dir = Vector3.zero;
 
+    public GameObject cross = null;
+    public GameObject dot = null;
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
@@ -27,12 +29,33 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("Preparing_arm", true);
             anim.Play("Preparing_arm");
+
+            Camera.main.GetComponent<CameraFollow>().preparing_arm = true;
+            dot.SetActive(true);
+
             Time.timeScale = 0.25f;
         }
+        else if(Input.GetButton("R1"))
+        {
+            //cross.transform.GetChild(0).GetChild(0).transform.position;
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight / 2, 0));
+            RaycastHit hit;
 
+            //Debug.DrawRay(ray.origin, ray.direction * 20, Color.yellow);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.Log(hit.transform.gameObject.name);
+                cross.SetActive(true);
+                // cross.transform.position = hit.transform.gameObject.transform.position;
+                cross.transform.position =  hit.point;
+            }
+        }
         else if (Input.GetButtonUp("R1"))
         {
             anim.SetBool("Preparing_arm", false);
+            Camera.main.GetComponent<CameraFollow>().preparing_arm = false;
+            dot.SetActive(false);
             Time.timeScale = 1.0f;
         }
 
@@ -41,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Preparing_arm", false);
             anim.SetBool("Throwing_arm", true);
             anim.Play("Throwing_arm");
+
         }
 
         else
