@@ -32,4 +32,7 @@ public class CameraRotation : MonoBehaviour
             pivot.localRotation = pivot_local_rotation;
         }
     }
+
+   
+
 }
