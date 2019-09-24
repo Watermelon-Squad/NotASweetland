@@ -74,6 +74,8 @@ public class Character : MonoBehaviour
 
     public bool is_grounded { get; private set; }
 
+    private float jump_mul = 1.0f;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -120,7 +122,7 @@ public class Character : MonoBehaviour
             
             if(jump_input)
             {
-                vertical_speed = character_movement.jump_speed;
+                vertical_speed = character_movement.jump_speed * jump_mul;
                 is_grounded = false;
             }
         }
@@ -197,9 +199,10 @@ public class Character : MonoBehaviour
         return rotation_angles;
     }
 
-    public void SetJump(bool jump)
+    public void SetJump(bool jump, float mul = 1.0f)
     {
         jump_input = jump;
+        jump_mul = mul;
     }
 
     public void SetMovement(Vector3 movement_input)

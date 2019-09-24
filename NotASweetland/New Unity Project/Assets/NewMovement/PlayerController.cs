@@ -9,7 +9,15 @@ public class PlayerController : EntityController
     private CameraRotation camera_rotation = null;
 
     public float rotation_sensitivity = 2.0f;
+    public float second_jump_mul = 2.0f;
+    public float thrid_jump_mul = 3.0f;
 
+    [SerializeField]private float mult_jump = 1.0f;
+
+    public float max_time_mult_jump = 1.0f;
+    private float actual_time = 0.0f;
+
+    private bool last_action_jump = false;
     public override void EntityInit()
     {
         player_input = FindObjectOfType<PlayerInput>();
@@ -22,7 +30,8 @@ public class PlayerController : EntityController
 
         UpdateRotation();
         character.SetMovement(GetMovement());
-        character.SetJump(player_input.jump_input);
+        GetJumpMult(player_input.jump_input);
+        character.SetJump(player_input.jump_input,mult_jump);
     }
 
     public override void EntityFixedUpdate()
@@ -54,7 +63,38 @@ public class PlayerController : EntityController
             movement.Normalize();
 
         return movement;
-
     }
+
+    private void GetJumpMult(bool jump_input)
+    {
+        if (!last_action_jump)
+            last_action_jump = jump_input;
+
+        if (last_action_jump && character.is_grounded)
+        {
+            if (actual_time < max_time_mult_jump)
+            {
+                actual_time += Time.deltaTime;
+
+                if (jump_input)
+                {
+                    if (mult_jump == 1.0f)
+                        mult_jump = second_jump_mul;
+                    else if (mult_jump == second_jump_mul)
+                        mult_jump = thrid_jump_mul;
+                    else
+                        mult_jump = 1.0f;
+                    actual_time = 0.0f;
+                }         
+            } 
+            else
+            {
+                actual_time = 0.0f;
+                mult_jump = 1.0f;
+            }
+        }
+
+
+    }   
 
 }
