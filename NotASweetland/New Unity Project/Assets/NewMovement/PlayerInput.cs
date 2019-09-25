@@ -10,12 +10,12 @@ public class PlayerInput : MonoBehaviour
 
     public void UpdateInput()
     {
-        move_input = new Vector2(Input.GetAxis("LJoystickHorizontal"), Input.GetAxis("LJoystickVertical"));
+        move_input = new Vector2(Input.GetAxis("RJoystickHorizontal"), Input.GetAxis("RJoystickVertical") * 2);
 
         // Comprobation dead zone? or not needed
         //Save last vector input?
 
-        camera_input = new Vector2(Input.GetAxis("RJoystickHorizontal"),Input.GetAxis("RJoystickVertical"));
+        camera_input = new Vector2(Input.GetAxis("LJoystickHorizontal"),Input.GetAxis("LJoystickVertical") * 1.2f);
         jump_input = Input.GetButton("AButton");
 
     }

@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 input_joystic = new Vector2(Input.GetAxis("LJoystickHorizontal"), Input.GetAxis("LJoystickVertical"));
+        Vector2 input_joystic = new Vector2(Input.GetAxis("RJoystickHorizontal"), Input.GetAxis("RJoystickVertical"));
 
         if (Input.GetButtonDown("R1"))
         {

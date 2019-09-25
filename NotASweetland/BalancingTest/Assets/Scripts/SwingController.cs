@@ -60,7 +60,7 @@ public class SwingController : MonoBehaviour
         {
             state = State.Walking;
         }
-        else if (Input.GetButtonDown("L2"))
+        else if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -75,7 +75,7 @@ public class SwingController : MonoBehaviour
 
             }
         }
-        else if (Input.GetButtonDown("R2"))
+        else if (Input.GetButtonDown("Fire2"))
         {
             if (state == State.Swinging)
             {
@@ -86,12 +86,19 @@ public class SwingController : MonoBehaviour
 
     void DoSwingAction()
     {
-        
-       pendulum.balancing_character.velocity += pendulum.balancing_character.velocity.normalized * 2 * Input.GetAxis("RJoystickVertical");
-
-       
-       pendulum.balancing_character.velocity += cam.transform.right * Input.GetAxis("RJoystickHorizontal") * 1.2f;
-       
+        /* redo, all aplies very bad
+        if (Input.GetKey(KeyCode.W))
+        {
+            pendulum.balancing_character.velocity += pendulum.balancing_character.velocity.normalized * 1.2f;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            pendulum.balancing_character.velocity += -cam.transform.right * 1.2f;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            pendulum.balancing_character.velocity += cam.transform.right * 1.2f;
+        }*/
         transform.localPosition = pendulum.MoveCharacter(transform.localPosition, previousPosition, Time.deltaTime);
         previousPosition = transform.localPosition;
     }
@@ -108,12 +115,12 @@ public class SwingController : MonoBehaviour
         pendulum.balancing_character.velocity = Vector3.zero;
         if (controller.isGrounded)
         {
-            moveDirection = new Vector3(Input.GetAxis("LJoystickHorizontal"), 0, Input.GetAxis("LJoystickVertical"));
+            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             moveDirection = Camera.main.transform.TransformDirection(moveDirection);
             moveDirection.y = 0.0f;
             moveDirection *= speed;
 
-            if (Input.GetButton("AButton"))
+            if (Input.GetButton("Jump"))
             {
                 moveDirection.y = jumpSpeed;
             }

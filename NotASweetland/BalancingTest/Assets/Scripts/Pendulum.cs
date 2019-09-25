@@ -55,7 +55,6 @@ public class Pendulum
         {
             pos = Vector3.Normalize(pos - tether.position) * arm.length;
             arm.length = (Vector3.Distance(pos, tether.position));
-            return pos;
         }
 
         previous_pos = pos;
@@ -63,7 +62,7 @@ public class Pendulum
         return pos;
     }
 
-    public Vector3 GetConstraintVelocity(Vector3 current_pos, Vector3 previous_pos, float dt)
+    public Vector3 GetConstraintVelocity(Vector3 current_pos, Vector3 prev_pos, float dt)
     {
         float distance_to_tether;
         Vector3 constraint_pos;
@@ -73,7 +72,7 @@ public class Pendulum
         if (distance_to_tether > arm.length)
         {
             constraint_pos = Vector3.Normalize(current_pos - tether.position) * arm.length;
-            predicted_pos = (constraint_pos - previous_pos) / dt;
+            predicted_pos = (constraint_pos - prev_pos) / dt;
             return predicted_pos;
         }
             return Vector3.zero; 

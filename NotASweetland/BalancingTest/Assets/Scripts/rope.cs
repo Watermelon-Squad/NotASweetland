@@ -32,7 +32,7 @@ public class rope : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetButtonDown("L2"))
+        if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -42,7 +42,7 @@ public class rope : MonoBehaviour
                 lr.enabled = true;
             }
         }
-        else if (Input.GetButtonDown("R2"))
+        else if (Input.GetButtonDown("Fire2"))
         {
             lr.enabled = false;
         }

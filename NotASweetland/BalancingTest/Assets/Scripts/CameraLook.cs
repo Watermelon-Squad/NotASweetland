@@ -23,8 +23,8 @@ public class CameraLook : MonoBehaviour {
 
     private void LateUpdate()
     {
-        currentX += Input.GetAxis("LJoystickHorizontal") * sensitivityX;
-        currentY -= Input.GetAxis("LJoystickVertical") * sensitivityY;
+        currentX += Input.GetAxis("Mouse X") * sensitivityX;
+        currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
 
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
