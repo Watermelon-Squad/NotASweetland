@@ -10,6 +10,7 @@ public class Balancing_character
     public float gravity = 20.0f;
     public Vector3 gravitydirection = new Vector3(0, 1, 0);
     public float max_speed;
+    public float impulse = 0.25f;
 
     Vector3 dampingDirection;
     public float drag;

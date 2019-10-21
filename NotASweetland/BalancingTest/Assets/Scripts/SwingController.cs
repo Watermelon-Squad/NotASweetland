@@ -69,6 +69,7 @@ public class SwingController : MonoBehaviour
                 if (state == State.Walking)
                 {
                     pendulum.balancing_character.velocity = moveDirection;
+                    transform.LookAt(-cam.transform.forward);
                 }
                 pendulum.SwitchTether(hit.point);
                 state = State.Swinging;
@@ -99,6 +100,26 @@ public class SwingController : MonoBehaviour
         {
             pendulum.balancing_character.velocity += cam.transform.right * 1.2f;
         }*/
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            pendulum.balancing_character.velocity += -transform.forward.normalized * pendulum.balancing_character.impulse;
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            pendulum.balancing_character.velocity += transform.forward.normalized * pendulum.balancing_character.impulse;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            pendulum.balancing_character.velocity += -transform.right.normalized * pendulum.balancing_character.impulse;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            pendulum.balancing_character.velocity += transform.right.normalized * pendulum.balancing_character.impulse;
+        }
+
         transform.localPosition = pendulum.MoveCharacter(transform.localPosition, previousPosition, Time.deltaTime);
         previousPosition = transform.localPosition;
     }
